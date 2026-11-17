@@ -24,13 +24,13 @@ You typically only work on one branch at a time, and changing branches is easy a
 
 But when using agents, branches don't work so well - instead you really want to give each agent its own independent copy of the code.
 
-The naive way to do this is to clone the repo in a new directory for each branch/PR. This works but it's not very convenient.
+One way to do this is to clone the repo in a new directory for each branch/PR. This works but it's not very convenient.
 
 ---
 
 # Git worktrees
 
-A better option is a Git worktree, which is a checked out branch in another working directory, e.g. starting in `repo`:
+A better option is a Git worktree, which is a branch checked out in another working directory, e.g. starting in `repo`:
 
 ```console
 git worktree add -b new-feature ../repo.new-feature
@@ -48,6 +48,8 @@ git branch -d new-feature
 ---
 
 # Worktrunk
+
+![bg left:30% contain](worktrunk-logo.png)
 
 There are also many new tools created in the last year to make working with worktrees and agents easier.
 
@@ -117,7 +119,11 @@ This creates a worktree of this branch in `../repo.branch-name` if not already t
 
 You can also just do `wt switch` then interactively choose an existing worktree.
 
-To include all open PRs in the interactive chooser do `wt switch --prs` (requires the `gh` CLI).
+To include all open PRs in the interactive chooser do `wt switch --prs` (requires installed and authenticated `gh` CLI), or directly checkout a pr with:
+
+```console
+wt switch pr:123
+```
 
 ---
 
@@ -135,6 +141,8 @@ Or to include more information including CI status:
 wt list --full
 ```
 
+If you have installed the agent plugins this can also show the status of agents in each worktree.
+
 ---
 
 # Advanced options
@@ -143,7 +151,7 @@ I don't yet use any of these, but there are plenty of hooks / customisation poin
 
 And they provide plugins/skills for Claude/Codex/pi/etc.
 
-The `-x` argument runs a command in the created worktree, so for example an alias for "create worktree of new branch, launch Claude there with prompt" could be
+The `-x` argument runs a command in the created worktree, so for example an alias for *"create a worktree for a new branch and launch Claude there with a prompt"* could be
 
 ```console
 alias wsc='wt switch --create -x claude'
